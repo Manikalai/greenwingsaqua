@@ -93,14 +93,40 @@ a { color: inherit; }
   gap: 10px;
 }
 
+.nav-panel {
+  display: contents;
+}
+
 .nav-toggle {
   display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
   background: none;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
 }
+
+.nav-toggle span {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--aqua-900);
+  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+
+.nav-toggle span:nth-child(1) { top: 13px; }
+.nav-toggle span:nth-child(2) { top: 19px; }
+.nav-toggle span:nth-child(3) { top: 25px; }
+
+body.nav-open .nav-toggle span:nth-child(1) { top: 19px; transform: rotate(45deg); }
+body.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+body.nav-open .nav-toggle span:nth-child(3) { top: 19px; transform: rotate(-45deg); }
 
 /* Buttons */
 .btn {
@@ -624,23 +650,44 @@ footer {
 }
 
 @media (max-width: 640px) {
-  .nav-links, .nav-cta .btn-outline { display: none; }
-  .nav-toggle { display: inline-block; }
+  .nav-panel { display: none; }
+  .nav-toggle { display: block; }
   .grid-3, .grid-4, .plan-grid, .stat-grid, .product-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero { padding: 40px 0 28px; }
 }
 
-body.nav-open .nav-links {
+body.nav-open .nav-panel {
   display: flex;
+  flex-direction: column;
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
   background: #fff;
-  flex-direction: column;
-  padding: 16px 20px;
+  padding: 18px 20px 22px;
+  gap: 18px;
   border-bottom: 1px solid var(--line);
-  gap: 16px;
+  box-shadow: var(--shadow);
+}
+
+body.nav-open .nav-panel .nav-links {
+  flex-direction: column;
+  gap: 14px;
+}
+
+body.nav-open .nav-panel .nav-links a {
+  display: block;
+  padding: 6px 0;
+  font-size: 1.02rem;
+}
+
+body.nav-open .nav-panel .nav-cta {
+  flex-direction: column;
+}
+
+body.nav-open .nav-panel .nav-cta .btn {
+  width: 100%;
+  justify-content: center;
 }

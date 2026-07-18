@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.nav-toggle');
+  const navPanel = document.querySelector('.nav-panel');
   if (toggle) {
     toggle.addEventListener('click', () => {
-      document.body.classList.toggle('nav-open');
+      const isOpen = document.body.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+  if (navPanel) {
+    navPanel.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('nav-open');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
     });
   }
 
