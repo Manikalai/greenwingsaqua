@@ -13,7 +13,7 @@ css/style.css   All styling
 js/main.js      Mobile nav toggle + contact-form → WhatsApp handoff
 ```
 
-The contact form has no backend — on submit it opens WhatsApp with a pre-filled message to `9489353955`. Zero cost, works immediately.
+The contact form has no backend — on submit it opens WhatsApp with a pre-filled message to `9944560234`. Zero cost, works immediately.
 
 ## Run locally
 
