@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const WHATSAPP_NUMBER = '919489353955';
+  const WHATSAPP_NUMBER = '919944560234';
   const form = document.getElementById('enquiry-form');
   if (form) {
     form.addEventListener('submit', (event) => {
