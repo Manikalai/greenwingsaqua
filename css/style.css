@@ -700,3 +700,9 @@ body.nav-open .nav-panel .nav-cta .btn {
   transition: background .2s, color .2s;
 }
 .footer-grid .social a:hover { background: rgba(255,255,255,.22); color: #fff; }
+
+/* Enquiry form: spam trap and result message */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { margin: 14px 0 0; padding: 10px 12px; border-radius: 8px; font-size: 0.92rem; }
+.form-status.ok { background: #e7f5ec; color: #0d6d39; }
+.form-status.error { background: #fdecea; color: #b3261e; }
