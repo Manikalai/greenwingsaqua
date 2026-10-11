@@ -1,0 +1,46 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { MessageCircle } from 'lucide-react';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import ProductCatalog, { type CatalogImage } from '@/components/ProductCatalog';
+import { PRODUCTS, TECHS } from '@/data/products';
+import { SITE, waHref } from '@/data/site';
+
+// Optimise every photo at build time (WebP, three widths) and hand the island
+// plain URLs, so the browser never downloads the 1280px originals.
+async function optimised(src: ImageMetadata): Promise<CatalogImage> {
+  const img = await getImage({ src, widths: [320, 480, 720], format: 'webp' });
+  return { src: img.src, srcset: img.srcSet.attribute, width: src.width, height: src.height };
+}
+const products = await Promise.all(PRODUCTS.map(async (p) => ({
+  id: p.id, brand: p.brand, name: p.name, description: p.description, alt: p.alt,
+  tags: p.tags, highlights: p.highlights ?? [],
+  image: await optimised(p.image),
+  variants: await Promise.all((p.variants ?? []).map(async (v) => ({ label: v.label, image: await optimised(v.image) }))),
+})));
+const techs = TECHS.filter((t) => PRODUCTS.some((p) => p.tags.includes(t)));
+---
+<Base
+  title="Our Products — Green Wings Aqua, Sivaganga"
+  description="Water purifier models we sell and service in Sivaganga — RO, UV and UF systems from GenMax, Prolife, Blueshell, Nile, Neptune, Emerald and more.">
+  <PageHero eyebrow="Our products" title="Purifiers for every home and office"
+    text="A range of RO, UV and UF water purifiers we sell, install and service in Sivaganga." />
+
+  <section class="container-x pt-6">
+    <ProductCatalog client:visible products={products} techs={techs} waNumber={SITE.whatsapp.number} />
+  </section>
+
+  <section class="container-x pt-20">
+    <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-700 via-brand-600 to-aqua-500 px-6 py-12 text-center text-white sm:px-12" data-reveal>
+      <div class="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-white/10 blur-2xl"></div>
+      <span class="eyebrow !border-white/20 !bg-white/10 !text-white">Not sure which one?</span>
+      <h2 class="mt-4 text-3xl font-extrabold !text-white">Tell us your water source and household size</h2>
+      <p class="mx-auto mt-3 max-w-xl text-brand-100">We'll recommend the right model and capacity for your home or office — message us on WhatsApp.</p>
+      <a href={waHref("Hi, I'd like help choosing a water purifier")} target="_blank" rel="noopener" class="btn-light mt-8">
+        <MessageCircle className="size-5 text-whatsapp-dark" />Get a recommendation
+      </a>
+    </div>
+  </section>
+</Base>

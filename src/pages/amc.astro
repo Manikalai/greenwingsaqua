@@ -1,0 +1,78 @@
+---
+import { Check, MessageCircle, Sparkles } from 'lucide-react';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { STEPS } from '@/data/services';
+import { waHref } from '@/data/site';
+
+// Prices are not published yet. Set `price` (e.g. '₹1,999') on a plan and the
+// card shows it instead of "Price on request".
+const PLANS: { name: string; price?: string; featured?: boolean; points: string[] }[] = [
+  { name: 'Basic AMC', points: ['2 scheduled visits per year', 'Sediment & carbon filter change', 'General check-up & cleaning', 'Discounted spare parts'] },
+  { name: 'Standard AMC', featured: true, points: ['3 scheduled visits per year', 'All filters + RO membrane check', 'Priority repair booking', 'Free minor spare parts', 'WhatsApp service reminders'] },
+  { name: 'Comprehensive AMC', points: ['4 scheduled visits per year', 'All filters, membrane & UV lamp', 'Same-day priority repair', 'All spare parts included', 'WhatsApp + SMS reminders'] },
+];
+---
+<Base
+  title="AMC Plans — Green Wings Aqua, Sivaganga"
+  description="Annual Maintenance Contract (AMC) plans for water purifiers in Sivaganga — scheduled service, genuine filters, priority support.">
+  <PageHero eyebrow="AMC plans" title="One yearly plan. Zero worry."
+    text="One fixed yearly cost — scheduled filter changes, check-ups and priority repair, with automatic reminders so you never miss a service." />
+
+  <section class="container-x pt-6">
+    <div class="grid items-stretch gap-6 lg:grid-cols-3">
+      {PLANS.map((p, i) => (
+        <article data-reveal style={`--delay:${i * 100}ms`}
+          class:list={['relative flex flex-col rounded-[2rem] p-8 transition-all duration-300',
+            p.featured
+              ? 'bg-gradient-to-b from-brand-600 to-brand-800 text-white shadow-2xl shadow-brand-700/30 lg:-translate-y-4'
+              : 'card']}>
+          {p.featured && (
+            <span class="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1 rounded-full bg-gradient-to-r from-aqua-400 to-aqua-300 px-4 py-1.5 text-xs font-bold text-ink-900 shadow">
+              <Sparkles className="size-3.5" />Most popular
+            </span>
+          )}
+          <h2 class:list={['text-xl font-bold', p.featured && '!text-white']}>{p.name}</h2>
+          <div class="mt-4 flex items-baseline gap-1">
+            {p.price
+              ? <><span class="font-display text-4xl font-extrabold">{p.price}</span><span class:list={['text-sm', p.featured ? 'text-brand-100' : 'text-ink-500']}>/year</span></>
+              : <span class:list={['font-display text-2xl font-bold', p.featured ? 'text-white' : 'text-ink-900']}>Price on request</span>}
+          </div>
+          <ul class="mt-6 grid flex-1 gap-3">
+            {p.points.map((pt) => (
+              <li class="flex items-start gap-3 text-[15px]">
+                <span class:list={['mt-0.5 grid size-5 shrink-0 place-items-center rounded-full', p.featured ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-600']}>
+                  <Check className="size-3.5" />
+                </span>
+                <span class={p.featured ? 'text-brand-50' : 'text-ink-800'}>{pt}</span>
+              </li>
+            ))}
+          </ul>
+          <a href={waHref(`Hi, I'm interested in the ${p.name} plan`)} target="_blank" rel="noopener"
+            class:list={['mt-8 w-full', p.featured ? 'btn-whatsapp' : 'btn-ghost']}>
+            <MessageCircle className="size-4" />Enquire on WhatsApp
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-x pt-24">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="eyebrow" data-reveal>How it works</span>
+      <h2 class="mt-4 text-3xl font-extrabold sm:text-4xl" data-reveal>Simple, hands-off maintenance</h2>
+    </div>
+    <div class="relative mt-14">
+    <div class="absolute left-[12%] right-[12%] top-7 hidden h-0.5 bg-gradient-to-r from-brand-200 via-aqua-300 to-brand-200 md:block" aria-hidden="true"></div>
+    <ol class="relative grid gap-8 md:grid-cols-4">
+      {STEPS.map((s, i) => (
+        <li class="relative text-center" data-reveal style={`--delay:${i * 100}ms`}>
+          <span class="relative mx-auto grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-aqua-500 font-display text-xl font-extrabold text-white shadow-lg shadow-brand-600/25">{i + 1}</span>
+          <h3 class="mt-5 text-lg font-bold">{s.title}</h3>
+          <p class="mt-1.5 text-sm text-ink-600">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+    </div>
+  </section>
+</Base>

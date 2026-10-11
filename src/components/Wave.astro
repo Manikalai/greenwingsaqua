@@ -1,0 +1,10 @@
+---
+// Layered water wave used as a section divider. `flip` turns it upside down for
+// the top edge of a dark section.
+interface Props { class?: string; flip?: boolean; fill?: string }
+const { class: cls = '', flip = false, fill = 'currentColor' } = Astro.props;
+---
+<svg class:list={['block w-full', flip && 'rotate-180', cls]} viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+  <path fill={fill} fill-opacity="0.35" d="M0,64 C240,112 480,16 720,48 C960,80 1200,120 1440,72 L1440,120 L0,120 Z" />
+  <path fill={fill} d="M0,88 C280,48 520,120 760,92 C1000,64 1220,40 1440,84 L1440,120 L0,120 Z" />
+</svg>

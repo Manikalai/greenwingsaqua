@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+/* Green Wings Aqua — "fresh aqua premium": white space, a deep brand blue, aqua
+   highlights, water-wave shapes. Same blue as the staff dashboard. */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: oklch(0.97 0.014 254.6);
+  --color-brand-100: oklch(0.932 0.032 255.6);
+  --color-brand-200: oklch(0.882 0.059 254.1);
+  --color-brand-300: oklch(0.809 0.105 251.8);
+  --color-brand-400: oklch(0.707 0.165 254.6);
+  --color-brand-500: oklch(0.623 0.214 259.8);
+  --color-brand-600: oklch(0.546 0.215 262.9);
+  --color-brand-700: oklch(0.488 0.217 264.4);
+  --color-brand-800: oklch(0.424 0.181 265.6);
+  --color-brand-900: oklch(0.379 0.138 265.5);
+
+  --color-aqua-50: oklch(0.984 0.019 200.9);
+  --color-aqua-100: oklch(0.956 0.045 203.4);
+  --color-aqua-200: oklch(0.917 0.08 205);
+  --color-aqua-300: oklch(0.865 0.127 207.1);
+  --color-aqua-400: oklch(0.789 0.154 211.5);
+  --color-aqua-500: oklch(0.715 0.143 215.2);
+  --color-aqua-600: oklch(0.609 0.126 221.7);
+
+  --color-ink-900: oklch(0.2 0.045 262);
+  --color-ink-800: oklch(0.27 0.05 262);
+  --color-ink-600: oklch(0.45 0.035 258);
+  --color-ink-500: oklch(0.55 0.03 256);
+
+  --color-whatsapp: oklch(0.72 0.17 150);
+  --color-whatsapp-dark: oklch(0.6 0.15 152);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-blob: blob 18s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.08); }
+    66% { transform: translate(-25px, 25px) scale(0.95); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-white font-sans text-ink-800 antialiased; }
+  h1, h2, h3, h4 { @apply font-display text-ink-900; letter-spacing: -0.02em; }
+  ::selection { background: var(--color-aqua-200); }
+}
+
+/* Reusable pieces. Utilities (not a components layer) so they can be
+   combined with @apply and overridden with !px-4 and the like. */
+@utility container-x { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-[15px] font-semibold transition-all duration-200;
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500;
+}
+@utility btn-primary {
+  @apply btn bg-gradient-to-r from-brand-600 to-brand-500 text-white shadow-lg shadow-brand-600/25;
+  @apply hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30;
+}
+@utility btn-whatsapp {
+  @apply btn bg-whatsapp text-white shadow-lg shadow-whatsapp/25 hover:-translate-y-0.5 hover:bg-whatsapp-dark;
+}
+@utility btn-ghost {
+  @apply btn border border-brand-200 bg-white/70 text-brand-700 backdrop-blur hover:border-brand-400 hover:bg-white;
+}
+@utility btn-light {
+  @apply btn bg-white text-brand-700 shadow-lg hover:-translate-y-0.5;
+}
+
+@utility eyebrow {
+  @apply inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700;
+}
+@utility glass {
+  @apply border border-white/60 bg-white/70 shadow-xl shadow-brand-900/5 backdrop-blur-xl;
+}
+@utility card {
+  @apply rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300;
+  @apply hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-900/5;
+}
+@utility text-gradient {
+  @apply bg-gradient-to-r from-brand-600 via-brand-500 to-aqua-500 bg-clip-text text-transparent;
+}
+@utility icon-tile {
+  @apply grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-brand-50 to-aqua-50 text-brand-600 ring-1 ring-brand-100;
+}
+
+/* Scroll-in animation. Only armed when JS runs, so content is never hidden for
+   a visitor whose script failed to load. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { animation: none !important; }
+}

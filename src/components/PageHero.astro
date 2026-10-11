@@ -1,0 +1,17 @@
+---
+// Header band for inner pages: soft gradient, two drifting blobs, wave edge.
+import Wave from './Wave.astro';
+interface Props { eyebrow: string; title: string; text: string }
+const { eyebrow, title, text } = Astro.props;
+---
+<section class="relative overflow-hidden bg-gradient-to-b from-brand-50 via-aqua-50/60 to-white pb-6 pt-32 sm:pt-40">
+  <div class="pointer-events-none absolute -left-24 top-10 size-72 rounded-full bg-aqua-200/50 blur-3xl animate-blob"></div>
+  <div class="pointer-events-none absolute -right-20 top-24 size-80 rounded-full bg-brand-200/50 blur-3xl animate-blob [animation-delay:-6s]"></div>
+  <div class="container-x relative text-center">
+    <span class="eyebrow" data-reveal>{eyebrow}</span>
+    <h1 class="mx-auto mt-5 max-w-3xl text-4xl font-extrabold sm:text-5xl" data-reveal style="--delay:80ms">{title}</h1>
+    <p class="mx-auto mt-4 max-w-2xl text-lg text-ink-600" data-reveal style="--delay:160ms">{text}</p>
+    <slot />
+  </div>
+  <Wave class="relative mt-12 h-10 text-white sm:h-14" />
+</section>
