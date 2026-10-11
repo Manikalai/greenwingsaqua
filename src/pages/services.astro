@@ -1,0 +1,47 @@
+---
+import { ArrowRight, MapPin, MessageCircle } from 'lucide-react';
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { SERVICES } from '@/data/services';
+import { waHref } from '@/data/site';
+---
+<Base
+  title="Services — Green Wings Aqua, Sivaganga"
+  description="Water purifier sales, installation, repair, filter replacement and AMC plans in Sivaganga — Green Wings Aqua Sales and Service.">
+  <PageHero eyebrow="Our services" title="Done right, the first time"
+    text="Sales, installation, repair and AMC for water purifiers — with genuine parts and same-day visits wherever possible." />
+
+  <section class="container-x pt-6">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {SERVICES.map((s, i) => (
+        <article class="card flex flex-col" data-reveal style={`--delay:${(i % 3) * 80}ms`}>
+          <span class="icon-tile"><s.icon className="size-6" /></span>
+          <h2 class="mt-5 text-xl font-bold">{s.title}</h2>
+          <p class="mt-2 flex-1 leading-relaxed text-ink-600">{s.long}</p>
+          {s.title === 'Annual Maintenance Contracts' ? (
+            <a href="/amc.html" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">See AMC plans<ArrowRight className="size-4" /></a>
+          ) : (
+            <a href={waHref(s.waText)} target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-whatsapp-dark hover:underline">
+              <MessageCircle className="size-4" />Ask on WhatsApp
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-x pt-20">
+    <div class="grid items-center gap-8 rounded-[2rem] border border-brand-100 bg-gradient-to-br from-brand-50 to-aqua-50 p-8 sm:p-12 lg:grid-cols-[1fr_auto]" data-reveal>
+      <div class="flex gap-5">
+        <span class="icon-tile hidden shrink-0 bg-white sm:grid"><MapPin className="size-6" /></span>
+        <div>
+          <h2 class="text-2xl font-extrabold sm:text-3xl">Serving Sivaganga and nearby localities</h2>
+          <p class="mt-2 text-ink-600">Message us your address and issue — we'll confirm availability and schedule the earliest slot.</p>
+        </div>
+      </div>
+      <a href={waHref('Hi, I need a purifier repair/service visit')} target="_blank" rel="noopener" class="btn-whatsapp">
+        <MessageCircle className="size-5" />Request service on WhatsApp
+      </a>
+    </div>
+  </section>
+</Base>
